@@ -10,9 +10,14 @@
   };
   firebase.initializeApp(config);
 
+  var database=firebase.database()
   var loginBtn=document.getElementById('start-login')
-  var user
+  var user;
+  var conectadoKey="";
+  var usuariosConectados=null
+
   loginBtn.addEventListener("click",googleLogin)
+  window.addEventListener("unload",unlogin)
 
   function googleLogin(){
   	var provider = new firebase.auth.GoogleAuthProvider();
@@ -24,6 +29,8 @@
   	user = result.user;
   	console.log(user)
   	$("#login").fadeOut()
+
+  	initApp()
   // ...
 }).catch(function(error) {
   // Handle Errors here.
@@ -35,6 +42,24 @@
   var credential = error.credential;
   // ...
 });
+  }
+
+  function initApp(){
+  	usuariosConectados=database.ref("/connected")
+  	login(user.uid,user.displayName||user.email)
+  }
+
+  function login(uid,name){
+  	var conectado=usuariosConectados.push({
+  		uid: uid,
+  		name: name
+  	});
+
+  	conectadoKey=conectado.key
+  }
+
+  function unlogin(){
+  	database.ref("/connected/").remove()
   }
  })()
 
