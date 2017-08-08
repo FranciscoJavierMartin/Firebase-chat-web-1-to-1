@@ -12,6 +12,11 @@
 			z-index: 10;
 			width: 100%
 		}
+
+		#app{
+			height: 100vh;
+			width: 100%;
+		}
 	</style>
 </head>
 <body>
@@ -21,6 +26,19 @@
 			<div class="box">
 				<p>Antes de entrar al chat, tienes que iniciar sesión</p>
 				<button id="start-login" class="btn btn-raised red white-text">Iniciar sesión con Google</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="app" class="row">
+		<div class="col-md-3 col-xs-12">
+			<div class="box">
+				<div class="indigo white-text" style="padding: 10px 15px">
+					Usuarios conectados
+				</div>
+				<ul class="collection" id="users">
+					
+				</ul>
 			</div>
 		</div>
 	</div>

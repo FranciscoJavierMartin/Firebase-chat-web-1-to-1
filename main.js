@@ -47,6 +47,9 @@
   function initApp(){
   	usuariosConectados=database.ref("/connected")
   	login(user.uid,user.displayName||user.email)
+
+  	usuariosConectados.on("child_added",addUser)
+  	usuariosConectados.on("child_removed",removeUser)
   }
 
   function login(uid,name){
@@ -59,7 +62,21 @@
   }
 
   function unlogin(){
-  	database.ref("/connected/").remove()
+  	database.ref("/connected/"+conectadoKey).remove()
   }
+
+  function addUser(data){
+  	var $li = $("<li>").addClass("collection-item")
+  		.html(data.val().name)
+  		.attr("id",data.val().uid)
+  		.appendTo("#users")
+  }
+
+  function removeUser(data){
+  	$("#"+data.val().uid).slideUp('fast',function(){
+  		$(this).remove();
+  	})
+  }
+
  })()
 
