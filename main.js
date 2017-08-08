@@ -53,6 +53,8 @@
 
   	usuariosConectados.on("child_added",addUser)
   	usuariosConectados.on("child_removed",removeUser)
+
+  	rooms.on("child_added",newRoom)
   }
 
   function login(uid,name){
@@ -69,7 +71,7 @@
   }
 
   function addUser(data){
-  	//if(data.val().uid==user.uid) return;
+  	if(data.val().uid==user.uid) return;
   	var friend_id=data.val().uid
   	var $li = $("<li>").addClass("collection-item")
   		.html(data.val().name)
@@ -90,6 +92,12 @@
   	$("#"+data.val().uid).slideUp('fast',function(){
   		$(this).remove();
   	})
+  }
+
+  function newRoom(data){
+  	if(data.val().friend == user.id){
+  		new Chat(data.key,user, "chats",database)
+  	}
   }
 
  })()
