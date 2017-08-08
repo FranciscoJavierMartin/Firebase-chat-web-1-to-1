@@ -69,7 +69,7 @@
   }
 
   function addUser(data){
-  	if(data.val().uid==user.uid) return;
+  	//if(data.val().uid==user.uid) return;
   	var friend_id=data.val().uid
   	var $li = $("<li>").addClass("collection-item")
   		.html(data.val().name)
@@ -81,6 +81,8 @@
   			creator:user.uid,
   			friend: friend_id
   		})
+
+  		new Chat(room.key,user,"chats",database)
   	});
   }
 
