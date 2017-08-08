@@ -15,6 +15,7 @@
   var user;
   var conectadoKey="";
   var usuariosConectados=null
+  var rooms;
 
   loginBtn.addEventListener("click",googleLogin)
   window.addEventListener("unload",unlogin)
@@ -46,6 +47,8 @@
 
   function initApp(){
   	usuariosConectados=database.ref("/connected")
+  	rooms=database.ref("/rooms")
+
   	login(user.uid,user.displayName||user.email)
 
   	usuariosConectados.on("child_added",addUser)
@@ -66,10 +69,19 @@
   }
 
   function addUser(data){
+  	if(data.val().uid==user.uid) return;
+  	var friend_id=data.val().uid
   	var $li = $("<li>").addClass("collection-item")
   		.html(data.val().name)
-  		.attr("id",data.val().uid)
-  		.appendTo("#users")
+  		.attr("id",friend_id)
+  		.appendTo("#users");
+
+  	$li.on("click",function(){
+  		var room=rooms.push({
+  			creator:user.uid,
+  			friend: friend_id
+  		})
+  	});
   }
 
   function removeUser(data){
