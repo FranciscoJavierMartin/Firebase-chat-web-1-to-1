@@ -17,12 +17,27 @@ class Chat{
 	set_events(){
 		$("#"+this.id).find("form").on("submit",(ev)=>{
 			ev.preventDefault()
-			
+
 			var msg=$(ev.target).find(".mensaje").val()
 			this.send(msg)
 
 			return false;
 		})
+
+		this.ref.on("child_added",(data)=> this.add(data))
+	}
+
+	add(data){
+		var mensaje=data.val();
+
+		var html= 	`
+						<b> ${ mensaje.name } : </b>
+						<span> ${mensaje.msg} </span>
+					`
+		var $li = $("<li>").addClass("collection-item")
+							.html(html)
+
+		$("#"+this.id).find(".messages").append($li);
 	}
 
 	send(msg){

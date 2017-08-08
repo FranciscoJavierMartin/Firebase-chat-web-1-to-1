@@ -1,12 +1,8 @@
  ;(function(){
  // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyDgPC2Mq_HPQFMZ5WZZd80nF0GnEIDDv0A",
-    authDomain: "webchat1to1.firebaseapp.com",
-    databaseURL: "https://webchat1to1.firebaseio.com",
-    projectId: "webchat1to1",
-    storageBucket: "",
-    messagingSenderId: "301989175636"
+  	//Here you put the firebase config data
+    //..
   };
   firebase.initializeApp(config);
 
@@ -28,7 +24,7 @@
   var token = result.credential.accessToken;
   // The signed-in user info.
   	user = result.user;
-  	console.log(user)
+  	
   	$("#login").fadeOut()
 
   	initApp()
@@ -84,7 +80,7 @@
   			friend: friend_id
   		})
 
-  		new Chat(room.key,user,"chats",database)
+  		//new Chat(room.key,user,"chats",database)
   	});
   }
 
@@ -96,6 +92,10 @@
 
   function newRoom(data){
   	if(data.val().friend == user.id){
+  		new Chat(data.key,user, "chats",database)
+  	}
+
+  	if(data.val().creator==user.uid){
   		new Chat(data.key,user, "chats",database)
   	}
   }
